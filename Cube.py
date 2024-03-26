@@ -4,9 +4,11 @@ from tkinter import Tk, Frame
 from PIL import ImageTk, Image
 import os
 
-# Display Function
-# Called statically and will return a String of the display
+# Display()
+# Function: Called statically and will return a String of the layout of the cube
 # Need to: Update to use images and not a text based display
+# PRE: The variables holding the colors on each face of the cube must not be empty
+# Return: A string with the current layout of the cube
 def Display():
     text = ""
     text += "\n          __ __\n         |"
