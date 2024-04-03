@@ -483,18 +483,6 @@ class Solve_Tree:
         path = ''
         depth = 1
         last_move = ''
-        move_list = ['move_tree_upper_cw',
-                     'move_tree_upper_ccw',
-                     'move_tree_lower_cw',
-                     'move_tree_lower_ccw',
-                     'move_tree_front_cw',
-                     'move_tree_front_ccw',
-                     'move_tree_back_cw',
-                     'move_tree_back_ccw',
-                     'move_tree_left_cw',
-                     'move_tree_left_ccw',
-                     'move_tree_right_cw',
-                     'move_tree_right_ccw']
         Solve_Tree.solve_step()
 
     def solve_step(depth, path, last_move,consecutive_count):
@@ -502,10 +490,6 @@ class Solve_Tree:
             return("TEST_EXIT_3")
         if(Solve_Tree.check_solved()):
             return(path)
-        for move in set.move_list:
-            if move != last_move:
-                print()
-        
         
 
     def check_solved():
@@ -516,45 +500,10 @@ class Solve_Tree:
                         if(tree_back == ['o','o','o','o']):
                             if(tree_left == ['g','g','g','g']):
                                 return(TRUE)
-                            else:
-                                return(FALSE)
-                        else:
-                            return(FALSE)
-                    else:
-                        return(FALSE)
-                else:
-                    return(FALSE)
-            else:
-                return(FALSE)
-        else:
-            return(FALSE)
 
-    def make_move(in_move):
-        if  (in_move == 'move_tree_upper_cw'):
-            Solve_Tree.move_tree_upper_cw()
-        elif(in_move == 'move_tree_upper_ccw'):
-            Solve_Tree.move_tree_upper_ccw()
-        elif  (in_move == 'move_tree_lower_cw'):
-            Solve_Tree.move_tree_lower_cw()
-        elif(in_move == 'move_tree_lower_ccw'):
-            Solve_Tree.move_tree_lower_ccw()
-        elif  (in_move == 'move_tree_front_cw'):
-            Solve_Tree.move_tree_front_cw()
-        elif(in_move == 'move_tree_front_ccw'):
-            Solve_Tree.move_tree_front_ccw()
-        elif  (in_move == 'move_tree_back_cw'):
-            Solve_Tree.move_tree_back_cw()
-        elif(in_move == 'move_tree_back_ccw'):
-            Solve_Tree.move_tree_back_ccw()
-        elif  (in_move == 'move_tree_left_cw'):
-            Solve_Tree.move_tree_left_cw()
-        elif(in_move == 'move_tree_left_ccw'):
-            Solve_Tree.move_tree_left_ccw()
-        elif  (in_move == 'move_tree_right_cw'):
-            Solve_Tree.move_tree_right_cw()
-        elif(in_move == 'move_tree_right_ccw'):
-            Solve_Tree.move_tree_right_ccw()
-
+    def move_list(move):
+        if(move == 'upper_cw'):
+            print()
 
 
 
@@ -796,7 +745,6 @@ class Solve_Tree:
         if((back[3]  == 'b') & (lower[2] == 'o') & (left[2]  == 'w')): next = "Lower Clockwise"
         else: next = ""
         # main.GUI.next_step_label.config(text = next)
-
 
                         
 
