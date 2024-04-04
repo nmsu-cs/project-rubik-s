@@ -1,3 +1,14 @@
+# This solver will print the path needed to solve the cube in the least amount of steps.
+# It works through a base-12 tree.
+# There are 12 movements you can perform on a rubiks cube
+#     6 faces x 2 directions = 12
+# I used a base-12 tree with each leg being a movement
+#     The tree uses a queue for breadth first traversal aka level order traversal
+
+# TODO: Add conditions so the same move can't be repeated more than twice
+# TODO: Add condition so one move won't be cancelled out by the next
+#       Example: front_clockwise undoes front_counterclockwise
+
 # Import Libraries
 import tkinter as tk
 from tkinter import *
@@ -225,18 +236,6 @@ def move_right_ccw(upper,lower,front,back,left,right):
     right[3] = right[2]
     right[2] = temp3
 
-# def check_solved(upper,lower,front,back,left,right):
-#     if                     ((upper[0] == upper[1]) &(upper[1] == upper[2])&(upper[2] == upper[3])):
-#         if                 ((lower[0] == lower[1]) &(lower[1] == lower[2])&(lower[2] == lower[3])):
-#             if             ((front[0] == front[1]) &(front[1] == front[2])&(front[2] == front[3])):
-#                 if         (( back[0] ==  back[1]) &( back[1] ==  back[2])&( back[2] ==  back[3])):
-#                     if     (( left[0] ==  left[1]) &( left[1] ==  left[2])&( left[2] ==  left[3])):
-#                         if ((right[0] == right[1]) &(right[1] == right[2])&(right[2] == right[3])):
-#                             return(TRUE)
-#     else:
-#         return(FALSE)
-#     return(FALSE)
-
 
 def check_solved(U,D,F,B,L,R):
     if                     ((U[0] == U[1]) &(U[1] == U[2])&(U[2] == U[3])):
@@ -251,7 +250,7 @@ def check_solved(U,D,F,B,L,R):
     return(FALSE)
 
 
-# Binary tree
+# Dozenary tree
 def solve_tree(upper,lower,front,back,left,right,max_depth):
     # Set Queue and Solve Path
     queue = deque([((upper,lower,front,back,left,right),"",0)])
@@ -262,14 +261,10 @@ def solve_tree(upper,lower,front,back,left,right,max_depth):
         # Queue
         (c_upper,c_lower,c_front,c_back,c_left,c_right), path, depth = queue.popleft()
 
-
-
         # If depth limit reached, stop
         if(depth > max_depth):
             print("Reached Depth Limit: " + str(max_depth) + ". Stopping.")
             break
-
-
 
         # Print Current path and status
         # print("" + path + "   \t: " )
@@ -298,7 +293,6 @@ def solve_tree(upper,lower,front,back,left,right,max_depth):
         move_lower_ccw(c_upper,c_lower,c_front, c_back, c_left,c_right)
         next_states.append(((c_upper[:],c_lower[:],c_front[:], c_back[:], c_left[:],c_right[:]), path + "D'->", depth + 1))
         move_lower_cw(c_upper,c_lower,c_front, c_back, c_left,c_right)
-
 
         move_front_cw (c_upper,c_lower,c_front, c_back, c_left,c_right)
         next_states.append(((c_upper[:],c_lower[:],c_front[:], c_back[:], c_left[:],c_right[:]), path + "F->", depth + 1))

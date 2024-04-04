@@ -15,7 +15,6 @@ import time
 
 
 
-
 # GUI class
 class GUI:
     def __init__(self, master):
@@ -556,8 +555,6 @@ class Solve_Tree:
             Solve_Tree.move_tree_right_ccw()
 
 
-
-
     def move_tree_upper_cw():
         temp = tree_front[0]
         temp2 = tree_front[1]
@@ -822,9 +819,9 @@ def main():
 upper = ['w','w','w','w']
 lower = ['y','y','y','y']
 front = ['b','b','b','b']
-back  = ['o','o','o','o']
-left  = ['g','g','g','g']
-right = ['r','r','r','r']
+back  = ['g','g','g','g']
+left  = ['r','r','r','r']
+right = ['o','o','o','o']
 
 tree_upper = [upper[0],upper[1],upper[2],upper[3]]
 tree_lower = [lower[0],lower[1],lower[2],lower[3]]
