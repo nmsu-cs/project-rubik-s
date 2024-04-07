@@ -34,10 +34,10 @@ def move_right(x,y):
     x[0] = temp
 
 def move_upper(x,y):
-    print()
+    junk = ""
 
 def move_lower(x,y):
-    print()
+    junk = ""
 
 # A condition to check for a solved array
 def check_solved(x,y):
@@ -55,7 +55,7 @@ def solve_tree(x,y,max_depth):
         (current_state_x,current_state_y), path, depth = queue.popleft()
 
         # Print Current path and status
-        # print("" + path + "   \t: " + str(check_solved(current_state)))
+        print("" + path + "   \t: " + str(check_solved(current_state_x,current_state_y)))
         
         # If solved, return path
         if(check_solved(current_state_x,current_state_y)):
@@ -69,14 +69,23 @@ def solve_tree(x,y,max_depth):
         
         # Search next paths
         next_states = []
+        
         move_left(current_state_x,current_state_y)
+
         next_states.append(((current_state_x[:],current_state_y[:]), path + "left->",depth+1))
+
         move_right(current_state_x,current_state_y)
+
         next_states.append(((current_state_x[:],current_state_y[:]), path + "right->",depth+1))
         move_upper(current_state_x,current_state_y)
+
         next_states.append(((current_state_x[:],current_state_y[:]), path + "upper->", depth + 1))
+
+
         move_lower(current_state_x,current_state_y)
         next_states.append(((current_state_x[:],current_state_y[:]), path + "lower->", depth + 1))
+
+
         queue.extend(next_states)
 
     print("Solve Steps: " + str(solve_path))

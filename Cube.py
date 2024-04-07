@@ -6,6 +6,11 @@ import os
 import random
 import time
 
+
+# Import other files
+import dozenary
+import temp
+
 # Display()
 # Function: Called statically and will return a String of the layout of the cube
 # Need to: Update to use images and not a text based display
@@ -42,14 +47,41 @@ class GUI:
         # Create a default background
         background_cube_image = Image.open(os.getcwd() + '/Assets/Images/cube_background.png')
         background_cube_image = ImageTk.PhotoImage(background_cube_image)
+        
+        back0_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/back0_blue.png'))
+        self.back0_image_id = self.canvas_cube.create_image(615, 146, image=back0_image, anchor='center')
+
+        back1_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/back1_blue.png'))
+        self.back1_image_id = self.canvas_cube.create_image(515,101, image=back1_image, anchor='center')
+
+        back2_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/back2_blue.png'))
+        self.back2_image_id = self.canvas_cube.create_image(615, 243, image=back2_image, anchor='center')
+
+        back3_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/back3_blue.png'))
+        self.back3_image_id = self.canvas_cube.create_image(515, 198, image=back3_image, anchor='center')
+        
+        left0_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/left0_blue.png'))
+        self.left0_image_id = self.canvas_cube.create_image(215, 101, image=left0_image, anchor='center')
+
+        left1_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/left1_blue.png'))
+        self.left1_image_id = self.canvas_cube.create_image(115,146, image=left1_image, anchor='center')
+
+        left2_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/left2_blue.png'))
+        self.left2_image_id = self.canvas_cube.create_image(215, 198, image=left2_image, anchor='center')
+
+        left3_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/left3_blue.png'))
+        self.left3_image_id = self.canvas_cube.create_image(115, 243, image=left3_image, anchor='center')
+
+        
+
+
+
         self.background_cube_image = background_cube_image
         self.canvas_cube.create_image(371,250,image=background_cube_image,anchor='center')
 
-        # upper0_image = Image.open(os.getcwd() + '/Assets/Images/upper0_white.png')
         upper0_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/upper0_white.png'))
         self.upper0_image_id = self.canvas_cube.create_image(371, 95, image=upper0_image, anchor='center')
 
-        # upper1_image = Image.open(os.getcwd() + '/Assets/Images/upper1_white.png')
         upper1_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/upper1_white.png'))
         self.upper1_image_id = self.canvas_cube.create_image(459, 141, image=upper1_image, anchor='center')
 
@@ -82,6 +114,7 @@ class GUI:
 
         front3_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/front3_blue.png'))
         self.front3_image_id = self.canvas_cube.create_image(315, 373, image=front3_image, anchor='center')
+
         GUI.Display(self)
 
 
@@ -95,6 +128,7 @@ class GUI:
         move_left_cw_button.grid(row=0,column=1,sticky="nsew")
         move_left_ccw_button = tk.Button(movement_buttons_frame,text="Left CC",command = self.move_left_ccw_button_command,width=8)
         move_left_ccw_button.grid(row=1,column=1,sticky="nsew")
+
         move_front_cw_button = tk.Button(movement_buttons_frame,text="Front CW",command = self.move_front_cw_button_command,width=8)
         move_front_cw_button.grid(row=0,column=0,sticky="nsew")
         move_front_ccw_button = tk.Button(movement_buttons_frame,text="Front CC",command = self.move_front_ccw_button_command,width=8)
@@ -103,12 +137,12 @@ class GUI:
         move_upper_cw_button = tk.Button(movement_buttons_frame,text="Upper CW",command = self.move_upper_cw_button_command,width=8)
         move_upper_cw_button.grid(row=0,column=2,sticky="nsew")
         move_upper_ccw_button = tk.Button(movement_buttons_frame,text="Upper CC",command = self.move_upper_ccw_button_command,width=8)
-        move_upper_ccw_button.grid(row=0,column=3,sticky="nsew")
+        move_upper_ccw_button.grid(row=1,column=2,sticky="nsew")
 
-        move_lower_cw_button = tk.Button(movement_buttons_frame,text="Lower CW",command = self.move_lower_cw_button_command,width=8)
-        move_lower_cw_button.grid(row=1,column=2,sticky="nsew")
-        move_lower_ccw_button = tk.Button(movement_buttons_frame,text="Lower CC",command = self.move_lower_ccw_button_command,width=8)
-        move_lower_ccw_button.grid(row=1,column=3,sticky="nsew")
+        move_down_cw_button = tk.Button(movement_buttons_frame,text="Down CW",command = self.move_down_cw_button_command,width=8)
+        move_down_cw_button.grid(row=0,column=3,sticky="nsew")
+        move_down_ccw_button = tk.Button(movement_buttons_frame,text="Down CC",command = self.move_down_ccw_button_command,width=8)
+        move_down_ccw_button.grid(row=1,column=3,sticky="nsew")
 
         move_back_cw_button = tk.Button(movement_buttons_frame,text="Back CW",command = self.move_back_cw_button_command,width=8)
         move_back_cw_button.grid(row=0,column=5,sticky="nsew")
@@ -144,7 +178,7 @@ class GUI:
         # Create the shuffle and solve buttons
         shuffle_button = tk.Button(mini_display_frame,text="Shuffle",command = self.shuffle_button_command,height=2,width=21)
         shuffle_button.pack(side='left', fill="both", expand=True)        
-        solve_button =   tk.Button(mini_display_frame,text="Solve"  ,command = Solve_Tree.set,height=2,width=21)
+        solve_button =   tk.Button(mini_display_frame,text="Solve"  ,command = self.solve_button_command,height=2,width=21)
         solve_button.pack(side='left', fill="both", expand=True)
 
         # Create a frame for the bottom right window
@@ -163,10 +197,26 @@ class GUI:
         next_button = tk.Button(next_step_button_frame,text="Next",command = print("test next"),height=2,width=21)
         next_button.pack(side="left")
 
-        # 
-        self.next_step_label = tk.Label(next_step_frame_inner,text = "Placeholder",font=("Courier", 20),justify='left')
+        # Create a label for next step
+        self.next_step_label = tk.Label(next_step_frame_inner,text = "",font=("Courier", 14),justify='left')
         self.next_step_label.pack(anchor='nw')
 
+    def user_input_window(self):
+        self.user_input = tk.Toplevel(self.master)
+        self.user_input.title("Enter a Rubik's Cube")
+        
+        self.label = tk.Label("Enter input: ")
+        self.label.pack()
+
+        self.entry = tk.Entry(self.user_input)
+        self.entry.pack()
+
+        self.submit_button = tk.Button(self.user_input,text="Submit",command = self.submit_input)
+        self.submit_button.pack()
+
+    def submit_input(self):
+        user_cube = self.entry.get()
+        print(user_cube)
     
     def Display(self):
         color_dict = {'w' : 'white',
@@ -222,7 +272,39 @@ class GUI:
 
         new_front3_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/' + 'front3_' + color_dict[front[3]] + '.png'))
         self.front3_image = new_front3_image
-        self.canvas_cube.itemconfig(self.front3_image_id, image=new_front3_image)
+        self.canvas_cube.itemconfig(self.front3_image_id, image=new_front3_image)  
+
+        new_back0_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/' + 'back0_' + color_dict[back[0]] + '.png'))
+        self.back0_image = new_back0_image
+        self.canvas_cube.itemconfig(self.back0_image_id, image=new_back0_image)
+
+        new_back1_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/' + 'back1_' + color_dict[back[1]] + '.png'))
+        self.back1_image = new_back1_image
+        self.canvas_cube.itemconfig(self.back1_image_id, image=new_back1_image)
+
+        new_back2_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/' + 'back2_' + color_dict[back[2]] + '.png'))
+        self.back2_image = new_back2_image
+        self.canvas_cube.itemconfig(self.back2_image_id, image=new_back2_image)
+
+        new_back3_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/' + 'back3_' + color_dict[back[3]] + '.png'))
+        self.back3_image = new_back3_image
+        self.canvas_cube.itemconfig(self.back3_image_id, image=new_back3_image)
+
+        new_left0_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/' + 'left0_' + color_dict[left[0]] + '.png'))
+        self.left0_image = new_left0_image
+        self.canvas_cube.itemconfig(self.left0_image_id, image=new_left0_image)
+
+        new_left1_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/' + 'left1_' + color_dict[left[1]] + '.png'))
+        self.left1_image = new_left1_image
+        self.canvas_cube.itemconfig(self.left1_image_id, image=new_left1_image)
+
+        new_left2_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/' + 'left2_' + color_dict[left[2]] + '.png'))
+        self.left2_image = new_left2_image
+        self.canvas_cube.itemconfig(self.left2_image_id, image=new_left2_image)
+
+        new_left3_image = ImageTk.PhotoImage(Image.open(os.getcwd() + '/Assets/Images/' + 'left3_' + color_dict[left[3]] + '.png'))
+        self.left3_image = new_left3_image
+        self.canvas_cube.itemconfig(self.left3_image_id, image=new_left3_image)
 
     def move_upper_cw_button_command(self):
         temp = front[0]
@@ -262,7 +344,7 @@ class GUI:
         upper[2] = temp3
         self.Display()
         
-    def move_lower_cw_button_command(self):
+    def move_down_cw_button_command(self):
         temp = front[2]
         temp2 = front[3]
         front[2] = left[2]
@@ -274,14 +356,14 @@ class GUI:
         right[2] = temp
         right[3] = temp2
 
-        temp3 = lower[0]
-        lower[0] = lower[2]
-        lower[2] = lower[3]
-        lower[3] = lower[1]
-        lower[1] = temp3
+        temp3 = down[0]
+        down[0] = down[2]
+        down[2] = down[3]
+        down[3] = down[1]
+        down[1] = temp3
         self.Display()
         
-    def move_lower_ccw_button_command(self):
+    def move_down_ccw_button_command(self):
         temp = front[2]
         temp2 = front[3]
         front[2] = right[2]
@@ -293,11 +375,11 @@ class GUI:
         left[2] = temp
         left[3] = temp2
 
-        temp3 = lower[0]
-        lower[0] = lower[1]
-        lower[1] = lower[3]
-        lower[3] = lower[2]
-        lower[2] = temp3
+        temp3 = down[0]
+        down[0] = down[1]
+        down[1] = down[3]
+        down[3] = down[2]
+        down[2] = temp3
         self.Display()
         
     def move_front_cw_button_command(self):
@@ -305,10 +387,10 @@ class GUI:
         temp2 = upper[3]
         upper[2] = left[3]
         upper[3] = left[1]
-        left[3] = lower[1]
-        left[1] = lower[0]
-        lower[0] = right[2]
-        lower[1] = right[0]
+        left[3] = down[1]
+        left[1] = down[0]
+        down[0] = right[2]
+        down[1] = right[0]
         right[2] = temp2
         right[0] = temp
         temp3 = front[0]
@@ -323,10 +405,10 @@ class GUI:
         temp2 = upper[3]
         upper[2] = right[0]
         upper[3] = right[2]
-        right[0] = lower[1]
-        right[2] = lower[0]
-        lower[1] = left[3]
-        lower[0] = left[1]
+        right[0] = down[1]
+        right[2] = down[0]
+        down[1] = left[3]
+        down[0] = left[1]
         left[3] = temp
         left[1] = temp2
 
@@ -342,10 +424,10 @@ class GUI:
         temp2 = upper[1]
         upper[0] = right[1]
         upper[1] = right[3]
-        right[1] = lower[3]
-        right[3] = lower[2]
-        lower[3] = left[2]
-        lower[2] = left[0]
+        right[1] = down[3]
+        right[3] = down[2]
+        down[3] = left[2]
+        down[2] = left[0]
         left[2] = temp
         left[0] = temp2
 
@@ -361,10 +443,10 @@ class GUI:
         temp2 = upper[1]
         upper[0] = left[2]
         upper[1] = left[0]
-        left[2] = lower[3]
-        left[0] = lower[2]
-        lower[3] = right[1]
-        lower[2] = right[3]
+        left[2] = down[3]
+        left[0] = down[2]
+        down[3] = right[1]
+        down[2] = right[3]
         right[1] = temp
         right[3] = temp2
 
@@ -380,10 +462,10 @@ class GUI:
         temp2 = upper[2]
         upper[0] = back[3]
         upper[2] = back[1]
-        back[3] = lower[0]
-        back[1] = lower[2]
-        lower[0] = front[0]
-        lower[2] = front[2]
+        back[3] = down[0]
+        back[1] = down[2]
+        down[0] = front[0]
+        down[2] = front[2]
         front[0] = temp
         front[2] = temp2
 
@@ -399,10 +481,10 @@ class GUI:
         temp2 = upper[2]
         upper[0] = front[0]
         upper[2] = front[2]
-        front[0] = lower[0]
-        front[2] = lower[2]
-        lower[0] = back[3]
-        lower[2] = back[1]
+        front[0] = down[0]
+        front[2] = down[2]
+        down[0] = back[3]
+        down[2] = back[1]
         back[3] = temp
         back[1] = temp2
 
@@ -418,10 +500,10 @@ class GUI:
         temp2 = upper[3]
         upper[1] = front[1]
         upper[3] = front[3]
-        front[1] = lower[1]
-        front[3] = lower[3]
-        lower[1] = back[2]
-        lower[3] = back[0]
+        front[1] = down[1]
+        front[3] = down[3]
+        down[1] = back[2]
+        down[3] = back[0]
         back[2] = temp
         back[0] = temp2
 
@@ -437,10 +519,10 @@ class GUI:
         temp2 = upper[3]
         upper[1] = back[2]
         upper[3] = back[0]
-        back[2] = lower[1]
-        back[0] = lower[3]
-        lower[1] = front[1]
-        lower[3] = front[3]
+        back[2] = down[1]
+        back[0] = down[3]
+        down[1] = front[1]
+        down[3] = front[3]
         front[1] = temp
         front[3] = temp2
 
@@ -453,7 +535,8 @@ class GUI:
 
     def shuffle_button_command(self):
         i = random.randint(10,20)
-        for i in range(1,i):
+        i = 8
+        for i in range(1,i+1):
             m = random.randint(1,12)
             if (m ==  1): self.move_front_cw_button_command()
             if (m ==  2): self.move_front_ccw_button_command()
@@ -463,343 +546,33 @@ class GUI:
             if (m ==  6): self.move_left_ccw_button_command()
             if (m ==  7): self.move_right_cw_button_command()
             if (m ==  8): self.move_right_ccw_button_command()
-            if (m ==  9): self.move_lower_cw_button_command()
-            if (m == 10): self.move_lower_ccw_button_command()
+            if (m ==  9): self.move_down_cw_button_command()
+            if (m == 10): self.move_down_ccw_button_command()
             if (m == 11): self.move_back_cw_button_command()
             if (m == 12): self.move_back_ccw_button_command()
             
-
-# Solve class
-class Solve_Tree:
-    def set():
-        tree_upper = [upper[0],upper[1],upper[2],upper[3]]
-        tree_lower = [lower[0],lower[1],lower[2],lower[3]]
-        tree_front = [front[0],front[1],front[2],front[3]]
-        tree_back  = [ back[0], back[1], back[2], back[3]]
-        tree_left  = [ left[0], left[1], left[2], left[3]]
-        tree_right = [right[0],right[1],right[2],right[3]]
-
-        path = ''
-        depth = 1
-        last_move = ''
-        move_list = ['move_tree_upper_cw',
-                     'move_tree_upper_ccw',
-                     'move_tree_lower_cw',
-                     'move_tree_lower_ccw',
-                     'move_tree_front_cw',
-                     'move_tree_front_ccw',
-                     'move_tree_back_cw',
-                     'move_tree_back_ccw',
-                     'move_tree_left_cw',
-                     'move_tree_left_ccw',
-                     'move_tree_right_cw',
-                     'move_tree_right_ccw']
-        Solve_Tree.solve_step()
-
-    def solve_step(depth, path, last_move,consecutive_count):
-        if(depth == 3):
-            return("TEST_EXIT_3")
-        if(Solve_Tree.check_solved()):
-            return(path)
-        for move in set.move_list:
-            if move != last_move:
-                print()
-        
-        
-
-    def check_solved():
-        if(tree_upper == ['w','w','w','w']):
-            if(tree_front == ['b','b','b','b']):
-                if(tree_right == ['r','r','r','r']):
-                    if(tree_lower == ['y','y','y','y']):
-                        if(tree_back == ['o','o','o','o']):
-                            if(tree_left == ['g','g','g','g']):
-                                return(TRUE)
-                            else:
-                                return(FALSE)
-                        else:
-                            return(FALSE)
-                    else:
-                        return(FALSE)
-                else:
-                    return(FALSE)
-            else:
-                return(FALSE)
-        else:
-            return(FALSE)
-
-    def make_move(in_move):
-        if  (in_move == 'move_tree_upper_cw'):
-            Solve_Tree.move_tree_upper_cw()
-        elif(in_move == 'move_tree_upper_ccw'):
-            Solve_Tree.move_tree_upper_ccw()
-        elif  (in_move == 'move_tree_lower_cw'):
-            Solve_Tree.move_tree_lower_cw()
-        elif(in_move == 'move_tree_lower_ccw'):
-            Solve_Tree.move_tree_lower_ccw()
-        elif  (in_move == 'move_tree_front_cw'):
-            Solve_Tree.move_tree_front_cw()
-        elif(in_move == 'move_tree_front_ccw'):
-            Solve_Tree.move_tree_front_ccw()
-        elif  (in_move == 'move_tree_back_cw'):
-            Solve_Tree.move_tree_back_cw()
-        elif(in_move == 'move_tree_back_ccw'):
-            Solve_Tree.move_tree_back_ccw()
-        elif  (in_move == 'move_tree_left_cw'):
-            Solve_Tree.move_tree_left_cw()
-        elif(in_move == 'move_tree_left_ccw'):
-            Solve_Tree.move_tree_left_ccw()
-        elif  (in_move == 'move_tree_right_cw'):
-            Solve_Tree.move_tree_right_cw()
-        elif(in_move == 'move_tree_right_ccw'):
-            Solve_Tree.move_tree_right_ccw()
+    def solve_button_command(self):
+        output = self.getNext()
 
 
-    def move_tree_upper_cw():
-        temp = tree_front[0]
-        temp2 = tree_front[1]
-        tree_front[0] = tree_right[0]
-        tree_front[1] = tree_right[1]
-        tree_right[0] = tree_back[0]
-        tree_right[1] = tree_back[1]
-        tree_back[0] = tree_left[0]
-        tree_back[1] = tree_left[1]
-        tree_left[0] = temp
-        tree_left[1] = temp2
-
-        temp3 = tree_upper[0]
-        tree_upper[0] = tree_upper[2]
-        tree_upper[2] = tree_upper[3]
-        tree_upper[3] = tree_upper[1]
-        tree_upper[1] = temp3
-                    
-    def move_tree_upper_ccw():
-        temp = tree_front[0]
-        temp2 = tree_front[1]
-        tree_front[0] = tree_left[0]
-        tree_front[1] = tree_left[1]
-        tree_left[0] = tree_back[0]
-        tree_left[1] = tree_back[1]
-        tree_back[0] = tree_right[0]
-        tree_back[1] = tree_right[1]
-        tree_right[0] = temp
-        tree_right[1] = temp2
-
-        temp3 = tree_upper[0]
-        tree_upper[0] = tree_upper[1]
-        tree_upper[1] = tree_upper[3]
-        tree_upper[3] = tree_upper[2]
-        tree_upper[2] = temp3
-        
-    def move_tree_lower_cw():
-        temp = tree_front[2]
-        temp2 = tree_front[3]
-        tree_front[2] = tree_left[2]
-        tree_front[3] = tree_left[3]
-        tree_left[2] = tree_back[2] 
-        tree_left[3] = tree_back[3]
-        tree_back[2] = tree_right[2]
-        tree_back[3] = tree_right[3]
-        tree_right[2] = temp
-        tree_right[3] = temp2
-
-        temp3 = tree_lower[0]
-        tree_lower[0] = tree_lower[2]
-        tree_lower[2] = tree_lower[3]
-        tree_lower[3] = tree_lower[1]
-        tree_lower[1] = temp3
-        
-    def move_tree_lower_ccw():
-        temp = tree_front[2]
-        temp2 = tree_front[3]
-        tree_front[2] = tree_right[2]
-        tree_front[3] = tree_right[3]
-        tree_right[2] = tree_back[2]
-        tree_right[3] = tree_back[3]
-        tree_back[2] = tree_left[2]
-        tree_back[3] = tree_left[3]
-        tree_left[2] = temp
-        tree_left[3] = temp2
-
-        temp3 = tree_lower[0]
-        tree_lower[0] = tree_lower[1]
-        tree_lower[1] = tree_lower[3]
-        tree_lower[3] = tree_lower[2]
-        tree_lower[2] = temp3
-        
-    def move_tree_front_cw():
-        temp = tree_upper[2]
-        temp2 = tree_upper[3]
-        tree_upper[2] = tree_left[3]
-        tree_upper[3] = tree_left[1]
-        tree_left[3] = tree_lower[1]
-        tree_left[1] = tree_lower[0]
-        tree_lower[0] = tree_right[2]
-        tree_lower[1] = tree_right[0]
-        tree_right[2] = temp2
-        tree_right[0] = temp
-        temp3 = tree_front[0]
-        tree_front[0] = tree_front[2]
-        tree_front[2] = tree_front[3]
-        tree_front[3] = tree_front[1]
-        tree_front[1] = temp3
-        
-    def move_tree_front_ccw():
-        temp = tree_upper[2]
-        temp2 = tree_upper[3]
-        tree_upper[2] = tree_right[0]
-        tree_upper[3] = tree_right[2]
-        tree_right[0] = tree_lower[1]
-        tree_right[2] = tree_lower[0]
-        tree_lower[1] = tree_left[3]
-        tree_lower[0] = tree_left[1]
-        tree_left[3] = temp
-        tree_left[1] = temp2
-
-        temp3 = tree_front[0]
-        tree_front[0] = tree_front[1]
-        tree_front[1] = tree_front[3]
-        tree_front[3] = tree_front[2]
-        tree_front[2] = temp3
-        
-    def move_tree_back_cw():
-        temp = tree_upper[0]
-        temp2 = tree_upper[1]
-        tree_upper[0] = tree_right[1]
-        tree_upper[1] = tree_right[3]
-        tree_right[1] = tree_lower[3]
-        tree_right[3] = tree_lower[2]
-        tree_lower[3] = tree_left[2]
-        tree_lower[2] = tree_left[0]
-        tree_left[2] = temp
-        tree_left[0] = temp2
-
-        temp3 = tree_back[0]
-        tree_back[0] = tree_back[2]
-        tree_back[2] = tree_back[3]
-        tree_back[3] = tree_back[1]
-        tree_back[1] = temp3
-        
-    def move_tree_back_ccw():
-        temp = tree_upper[0]
-        temp2 = tree_upper[1]
-        tree_upper[0] = tree_left[2]
-        tree_upper[1] = tree_left[0]
-        tree_left[2] = tree_lower[3]
-        tree_left[0] = tree_lower[2]
-        tree_lower[3] = tree_right[1]
-        tree_lower[2] = tree_right[3]
-        tree_right[1] = temp
-        tree_right[3] = temp2
-
-        temp3 = tree_back[0]
-        tree_back[0] = tree_back[1]
-        tree_back[1] = tree_back[3]
-        tree_back[3] = tree_back[2]
-        tree_back[2] = temp3
-        
-    def move_tree_left_cw():
-        temp = tree_upper[0]
-        temp2 = tree_upper[2]
-        tree_upper[0] = tree_back[3]
-        tree_upper[2] = tree_back[1]
-        tree_back[3] = tree_lower[0]
-        tree_back[1] = tree_lower[2]
-        tree_lower[0] = tree_front[0]
-        tree_lower[2] = tree_front[2]
-        tree_front[0] = temp
-        tree_front[2] = temp2
-
-        temp3 = tree_left[0]
-        tree_left[0] = tree_left[2]
-        tree_left[2] = tree_left[3]
-        tree_left[3] = tree_left[1]
-        tree_left[1] = temp3
-        
-    def move_tree_left_ccw():
-        temp = tree_upper[0]
-        temp2 = tree_upper[2]
-        tree_upper[0] = tree_front[0]
-        tree_upper[2] = tree_front[2]
-        tree_front[0] = tree_lower[0]
-        tree_front[2] = tree_lower[2]
-        tree_lower[0] = tree_back[3]
-        tree_lower[2] = tree_back[1]
-        tree_back[3] = temp
-        tree_back[1] = temp2
-
-        temp3 = tree_left[0]
-        tree_left[0] = tree_left[1]
-        tree_left[1] = tree_left[3]
-        tree_left[3] = tree_left[2]
-        tree_left[2] = temp3
-        
-    def move_tree_right_cw():
-        temp = tree_upper[1]
-        temp2 = tree_upper[3]
-        tree_upper[1] = tree_front[1]
-        tree_upper[3] = tree_front[3]
-        tree_front[1] = tree_lower[1]
-        tree_front[3] = tree_lower[3]
-        tree_lower[1] = tree_back[2]
-        tree_lower[3] = tree_back[0]
-        tree_back[2] = temp
-        tree_back[0] = temp2
-
-        temp3 = tree_right[0]
-        tree_right[0] = tree_right[2]
-        tree_right[2] = tree_right[3]
-        tree_right[3] = tree_right[1]
-        tree_right[1] = temp3
-        
-    def move_tree_right_ccw():
-        temp = tree_upper[1]
-        temp2 = tree_upper[3]
-        tree_upper[1] = tree_back[2]
-        tree_upper[3] = tree_back[0]
-        tree_back[2] = tree_lower[1]
-        tree_back[0] = tree_lower[3]
-        tree_lower[1] = tree_front[1]
-        tree_lower[3] = tree_front[3]
-        tree_front[1] = temp
-        tree_front[3] = temp2
-
-        temp3 = right[0]
-        tree_right[0] = tree_right[1]
-        tree_right[1] = tree_right[3]
-        tree_right[3] = tree_right[2]
-        tree_right[2] = temp3
-
-    def Solve_White_1():
-        if((back[0]  == 'w') & (upper[1] == 'b') & (right[1] == 'o')): next = "Right C-Clockwise"
-        if((front[3] == 'w') & (right[2] == 'o') & (lower[1] == 'b')): next = "Right Clockwise"
-        if((right[3] == 'o') & (lower[3] == 'w') & (back[2]  == 'b')): next = "Right Clockwise"
-        if((upper[0] == 'o') & (left[0]  == 'b') & (back[1]  == 'w')): next = "Back C-Clockwise"
-        if((front[2] == 'o') & (left[3]  == 'w') & (lower[0] == 'b')): next = "Lower Clockwise"
-        if((right[3] == 'w') & (lower[3] == 'b') & (back[2]  == 'o')): next = "Lower C-Clockwise"
-        if((back[3]  == 'w') & (lower[2] == 'b') & (left[2]  == 'o')): next = "Lower Clockwise"
-        if((back[3]  == 'o') & (lower[2] == 'w') & (left[2]  == 'b')): next = "Lower C-Clockwise"
-        if((back[0]  == 'b') & (upper[1] == 'o') & (right[1] == 'w')): next = "Right Clockwise"
-        if((front[3] == 'b') & (right[2] == 'w') & (lower[1] == 'o')): next = "Right C-Clockwise"
-        if((front[3] == 'o') & (right[2] == 'b') & (lower[1] == 'w')): next = "Lower Clockwise"
-        if((front[1] == 'w') & (upper[3] == 'o') & (right[0] == 'b')): next = "Right C-Clockwise"
-        if((front[1] == 'o') & (upper[3] == 'b') & (right[0] == 'w')): next = "Right Clockwise"
-        if((back[0]  == 'o') & (upper[1] == 'w') & (right[1] == 'b')): next = "Upper Clockwise"
-        if((upper[0] == 'w') & (left[0]  == 'o') & (back[1]  == 'b')): next = "Back Clockwise"
-        if((front[2] == 'b') & (left[3]  == 'o') & (lower[0] == 'w')): next = "Lower Clockwise"
-        if((front[2] == 'w') & (left[3]  == 'b') & (lower[0] == 'o')): next = "Lower Clockwise"
-        if((right[3] == 'b') & (lower[3] == 'o') & (back[2]  == 'w')): next = "Right Clockwise"
-        if((upper[0] == 'b') & (left[0]  == 'w') & (back[1]  == 'o')): next = "Upper Clockwise"
-        if((back[3]  == 'b') & (lower[2] == 'o') & (left[2]  == 'w')): next = "Lower Clockwise"
-        else: next = ""
-        # main.GUI.next_step_label.config(text = next)
+        self.next_step_label.configure(text = output)
 
 
-                        
-
-
+    def getNext(self):
+        str = dozenary.solve(upper,down,front,back,left,right)
+        return(str)
+    
+    def stack2str(stack):
+        out_string = ""
+        while stack:
+            out_string += stack.pop()
+            if stack:
+                out_string += ","
+        return(out_string)
 
     
+
+                        
 
 # Start the GUI
 def main():
@@ -817,19 +590,18 @@ def main():
 
 # Begin global variables
 upper = ['w','w','w','w']
-lower = ['y','y','y','y']
+down =  ['y','y','y','y']
 front = ['b','b','b','b']
 back  = ['g','g','g','g']
 left  = ['r','r','r','r']
 right = ['o','o','o','o']
 
-tree_upper = [upper[0],upper[1],upper[2],upper[3]]
-tree_lower = [lower[0],lower[1],lower[2],lower[3]]
-tree_front = [front[0],front[1],front[2],front[3]]
-tree_back  = [ back[0], back[1], back[2], back[3]]
-tree_left  = [ left[0], left[1], left[2], left[3]]
-tree_right = [right[0],right[1],right[2],right[3]]
-
+# upper = ['g','y','w','g']
+# down =  ['w','r','r','b']
+# front = ['b','o','o','b']
+# back =  ['b','r','o','r']
+# left =  ['w','r','g','g']
+# right = ['y','o','y','w']
 
 
 
