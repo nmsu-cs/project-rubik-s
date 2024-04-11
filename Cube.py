@@ -5,13 +5,14 @@ from PIL import ImageTk, Image
 import os
 import random
 import time
+import csv
 
 
 # Import other files
 import Solver
 import Display
 import GetUserInput
-# import ImportCube
+import ImportUserInput
 
 
 # GUI class
@@ -39,8 +40,14 @@ class GUI:
         self.canvas_cube.pack(expand=True, padx = 5, pady = 5)
 
         # Create a frame for the set cube command
-        set_cube_button = tk.Button(self.canvas_cube,text="Set Cube",command = GUI.set_user_input_command)
-        self.canvas_cube.create_window(0, 0, anchor='nw', window=set_cube_button)
+        set_cube_button = tk.Button(self.canvas_cube,text="Set Cube",command = self.set_user_input_command)
+        self.canvas_cube.create_window(0, 0, anchor='nw', window=set_cube_button,width=100)
+
+        set_cube_button = tk.Button(self.canvas_cube,text="Import Cube",command = self.import_user_input_command)
+        self.canvas_cube.create_window(100, 0, anchor='nw', window=set_cube_button,width=100)
+
+        set_cube_button = tk.Button(self.canvas_cube,text="Save Cube",command = self.save_current_cube_command)
+        self.canvas_cube.create_window(200, 0, anchor='nw', window=set_cube_button,width=100)
 
 
 
@@ -130,8 +137,42 @@ class GUI:
         self.next_step_label = tk.Label(next_step_frame_inner,text = "",font=("Courier", 14),justify='left')
         self.next_step_label.pack(anchor='nw')
 
-    def set_user_input_command():
+    def set_user_input_command(self):
         (upper,down,front,back,left,right) = GetUserInput.get()
+
+    def import_user_input_command(self):
+        (U,D,F,B,L,R) = ImportUserInput.get()
+        upper = U
+        down = D
+        front = F
+        back = B
+        left = L
+        right = R
+        Display.display(self,upper,down,front,back,left,right)
+
+    def save_current_cube_command(self):
+        def submit_input():
+            filename = entry.get()
+            print(filename)
+
+            with open(os.getcwd() + '/Cube_Sets/' + filename + '.csv', 'w+') as file:
+                save_data = ','.join(upper) + '\n' + ','.join(down) + '\n' + ','.join(front) + '\n' + ','.join(back) + '\n' + ','.join(left) + '\n' + ','.join(right) + '\n'
+                file.write(save_data)
+            user_input.destroy()
+        
+        user_input = tk.Toplevel()
+        user_input.title("Save as CSV: ")
+        user_input.geometry("300x100")
+    
+        label = tk.Label(user_input,text="Choose a file name: ")
+        label.pack()
+
+        entry = tk.Entry(user_input)
+        entry.pack()
+
+        submit_button = tk.Button(user_input,text="Submit",command = submit_input)
+        submit_button.pack()
+
     
     def move_upper_cw_button_command(self):
         temp = front[0]
