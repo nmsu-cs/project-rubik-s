@@ -1,6 +1,0 @@
-upper = ['g','b','g','o']
-front = ['o','w','r','b']
-right = ['b','w','o','g']
-back =  ['r','y','y','#']
-left =  ['r','w','y','w']
-down =  ['g','y','b','o']

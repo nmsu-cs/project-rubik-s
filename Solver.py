@@ -170,7 +170,12 @@ def Check_Solved(cube):
 # Game Tree
 def solve_tree(cube):
     # Set Queue and Solve Path
-    queue = deque([(cube,[],0)])
+    queue = deque([(cube,"",0)])
+
+    # Trackers
+    solve_path = ""
+    visited = set()
+    max_depth = 10
 
 
     # Level Traverse binary tree through queue
@@ -207,7 +212,7 @@ def solve_tree(cube):
         for move_function, move_str in move_functions:
             new_cube = cube[:]  # Create a copy of the cube state
             move_function(new_cube)
-            queue.append((new_cube, path[depth], depth + 1))
+            queue.append((new_cube, path + move_str, depth + 1))
 
 
     return(solve_path)
@@ -222,11 +227,11 @@ def solve_tree(cube):
 # right = ['o', 'y', 'r', 'g']
 
 # # # Cube 8 steps
-upper = ['w','y','y','w']
-down =  ['y','w','w','y']
-front = ['b','b','b','b']
-back  = ['g','g','g','g']
-left  = ['r','o','o','r']
-right = ['o','r','r','o']
+# # upper = ['w','y','y','w']
+# # down =  ['y','w','w','y']
+# front = ['b','b','b','b']
+# back  = ['g','g','g','g']
+# left  = ['r','o','o','r']
+# right = ['o','r','r','o']
 
-solve(upper,down,front,back,left,right)
+# solve(upper,down,front,back,left,right)
