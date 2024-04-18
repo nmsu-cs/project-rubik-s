@@ -19,6 +19,16 @@ import Save_Cube
 # GUI class
 class GUI:
     def __init__(self, master):
+        # Import global variables
+
+        global upper
+        global down
+        global front
+        global back
+        global left
+        global right
+
+
         # Create the main window
         self.master = master
 
@@ -139,11 +149,33 @@ class GUI:
         self.next_step_label.pack(anchor='nw')
 
     def set_cube_command(self):
-        # (upper,down,front,back,left,right) = Set_Cube.get(self)
-        Set_Cube.get(self)
+        Set_Cube.GUI(self)
+
+    
+    def update_set(self,U,D,F,B,L,R):
+        global upper
+        global down
+        global front
+        global back
+        global left
+        global right
+        upper = U
+        down = D
+        front = F
+        back = B
+        left = L
+        right = R
         Display.display(self,upper,down,front,back,left,right)
+        self.set_input.destroy()
+
 
     def import_cube_command(self):
+        global upper
+        global down
+        global front
+        global back
+        global left
+        global right
         (U,D,F,B,L,R) = Import_Cube.get()
         upper = U
         down = D
@@ -439,6 +471,12 @@ def main():
 
 
 # Begin global variables
+global upper
+global down
+global front
+global back
+global left
+global right
 upper = ['w','w','w','w']
 down =  ['y','y','y','y']
 front = ['b','b','b','b']

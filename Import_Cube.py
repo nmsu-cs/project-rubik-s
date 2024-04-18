@@ -9,5 +9,6 @@ def get():
     with open(filename, newline='\n') as csvfile:
         (upper_data,down_data,front_data,back_data,left_data,right_data) = list(csv.reader(csvfile))
 
+    print (upper_data,down_data,front_data,back_data,left_data,right_data)
     return(upper_data,down_data,front_data,back_data,left_data,right_data)
 
