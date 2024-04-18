@@ -11,8 +11,9 @@ import csv
 # Import other files
 import Solver
 import Display
-import GetUserInput
-import ImportUserInput
+import Set_Cube
+import Import_Cube
+import Save_Cube
 
 
 # GUI class
@@ -40,13 +41,13 @@ class GUI:
         self.canvas_cube.pack(expand=True, padx = 5, pady = 5)
 
         # Create a frame for the set cube command
-        set_cube_button = tk.Button(self.canvas_cube,text="Set Cube",command = self.set_user_input_command)
+        set_cube_button = tk.Button(self.canvas_cube,text="Set Cube",command = self.set_cube_command)
         self.canvas_cube.create_window(0, 0, anchor='nw', window=set_cube_button,width=100)
 
-        set_cube_button = tk.Button(self.canvas_cube,text="Import Cube",command = self.import_user_input_command)
+        set_cube_button = tk.Button(self.canvas_cube,text="Import Cube",command = self.import_cube_command)
         self.canvas_cube.create_window(100, 0, anchor='nw', window=set_cube_button,width=100)
 
-        set_cube_button = tk.Button(self.canvas_cube,text="Save Cube",command = self.save_current_cube_command)
+        set_cube_button = tk.Button(self.canvas_cube,text="Save Cube",command = self.save_cube_command)
         self.canvas_cube.create_window(200, 0, anchor='nw', window=set_cube_button,width=100)
 
 
@@ -137,11 +138,13 @@ class GUI:
         self.next_step_label = tk.Label(next_step_frame_inner,text = "",font=("Courier", 14),justify='left')
         self.next_step_label.pack(anchor='nw')
 
-    def set_user_input_command(self):
-        (upper,down,front,back,left,right) = GetUserInput.get()
+    def set_cube_command(self):
+        # (upper,down,front,back,left,right) = Set_Cube.get(self)
+        Set_Cube.get(self)
+        Display.display(self,upper,down,front,back,left,right)
 
-    def import_user_input_command(self):
-        (U,D,F,B,L,R) = ImportUserInput.get()
+    def import_cube_command(self):
+        (U,D,F,B,L,R) = Import_Cube.get()
         upper = U
         down = D
         front = F
@@ -150,30 +153,10 @@ class GUI:
         right = R
         Display.display(self,upper,down,front,back,left,right)
 
-    def save_current_cube_command(self):
-        def submit_input():
-            filename = entry.get()
-            print(filename)
+    def save_cube_command(self):
+        Save_Cube.save(upper,down,front,back,left,right)
 
-            with open(os.getcwd() + '/Cube_Sets/' + filename + '.csv', 'w+') as file:
-                save_data = ','.join(upper) + '\n' + ','.join(down) + '\n' + ','.join(front) + '\n' + ','.join(back) + '\n' + ','.join(left) + '\n' + ','.join(right) + '\n'
-                file.write(save_data)
-            user_input.destroy()
-        
-        user_input = tk.Toplevel()
-        user_input.title("Save as CSV: ")
-        user_input.geometry("300x100")
-    
-        label = tk.Label(user_input,text="Choose a file name: ")
-        label.pack()
 
-        entry = tk.Entry(user_input)
-        entry.pack()
-
-        submit_button = tk.Button(user_input,text="Submit",command = submit_input)
-        submit_button.pack()
-
-    
     def move_upper_cw_button_command(self):
         temp = front[0]
         temp2 = front[1]
@@ -424,7 +407,6 @@ class GUI:
 
 
         self.next_step_label.configure(text = output)
-
 
     def getNext(self):
         str = Solver.solve(upper,down,front,back,left,right)
