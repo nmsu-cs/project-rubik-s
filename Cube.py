@@ -1,12 +1,12 @@
+# Cube.py
+# This program acts as the main for the Rubik's Cube Solver GUI
+# It initializes the GUI and calls the required functions.
+# This program also holds the data corresponding to the state of the cube
+
 # Import Libraries
 import tkinter as tk
-from tkinter import *
-from PIL import ImageTk, Image
-import os
+from tkinter import Canvas
 import random
-import time
-import csv
-
 
 # Import other files
 import Solver
@@ -18,16 +18,14 @@ import Save_Cube
 
 # GUI class
 class GUI:
+    # Function init
+    # Purpose: 
+    # Parameters: self, master
+    # Precondition: self and master must be defined and correspond to a tkinter root
+    # Post condition: Will generate and start the GUI layout
     def __init__(self, master):
         # Import global variables
-
-        global upper
-        global down
-        global front
-        global back
-        global left
-        global right
-
+        global upper, down, front, back, left, right
 
         # Create the main window
         self.master = master
@@ -50,27 +48,23 @@ class GUI:
         self.canvas_cube = Canvas(display_frame, bg = '#939393', width= 742, height=500,highlightthickness=0)
         self.canvas_cube.pack(expand=True, padx = 5, pady = 5)
 
-        # Create a frame for the set cube command
+        # Create buttons for the importing and exporting of cube states
         set_cube_button = tk.Button(self.canvas_cube,text="Set Cube",command = self.set_cube_command)
         self.canvas_cube.create_window(0, 0, anchor='nw', window=set_cube_button,width=100)
-
         set_cube_button = tk.Button(self.canvas_cube,text="Import Cube",command = self.import_cube_command)
         self.canvas_cube.create_window(100, 0, anchor='nw', window=set_cube_button,width=100)
-
         set_cube_button = tk.Button(self.canvas_cube,text="Save Cube",command = self.save_cube_command)
         self.canvas_cube.create_window(200, 0, anchor='nw', window=set_cube_button,width=100)
 
-
-
-        # GetUserInput.get(self)
+        # Initial Display
         Display.display(self,upper,down,front,back,left,right)
-
 
         # Create a frame for the movement buttons section
         movement_buttons_frame = tk.Frame(left_frame, bg="#888888", width= 0.95*(GUI_width // 2), height=0.2*GUI_height)
         movement_buttons_frame.pack(side="bottom", fill="both", expand=True, padx = 0.01*GUI_width, pady = 0.01*GUI_height)
         movement_buttons_frame.pack_propagate(False)
 
+        # Create the movement buttons
         move_left_cw_button = tk.Button(movement_buttons_frame,text="Left CW",command = self.move_left_cw_button_command,width=8)
         move_left_cw_button.grid(row=0,column=1,sticky="nsew")
         move_left_ccw_button = tk.Button(movement_buttons_frame,text="Left CC",command = self.move_left_ccw_button_command,width=8)
@@ -128,7 +122,7 @@ class GUI:
         solve_button =   tk.Button(mini_display_frame,text="Solve"  ,command = self.solve_button_command,height=2,width=21)
         solve_button.pack(side='left', fill="both", expand=True)
 
-        # Create a frame for the bottom right window
+        # Create a frame for the next step window
         next_step_frame_outer = tk.Frame(right_frame, bg="#AAAAAA", width=GUI_width*0.4, height=GUI_height*0.4)
         next_step_frame_outer.pack(side="top", fill="both", expand=True, padx = 0.01*GUI_width, pady = 0.01*GUI_height)
         next_step_frame_inner = tk.Frame(next_step_frame_outer, bg="#FFFFFF", width=GUI_width*0.4, height=GUI_height*0.4)
@@ -148,47 +142,113 @@ class GUI:
         self.next_step_label = tk.Label(next_step_frame_inner,text = "",font=("Courier", 14),justify='left')
         self.next_step_label.pack(anchor='nw')
 
+    # Function: set_cube_command
+    # Called from the GUI when user clicks Set Cube
+    # Purpose: To change the current state of the cube to a set input by the user via a second GUI window
+    # Precondition: The csv file holding the state must exist
+    # Postcondition: The cube will be updated to the desired state and the display will update
     def set_cube_command(self):
-        Set_Cube.GUI(self)
+        global upper, down, front, back, left, right
+        Set_Cube.start(self)
 
-    
+
+    # Function: update_set
+    # Helper to the set_cube_command function
+    # Purpose: To change the current state of the cube from a csv file holding the new state
+    # Precondition: The csv file holding the state must exist
+    # Postcondition: The cube will be updated to the desired state and the display will update
     def update_set(self,U,D,F,B,L,R):
-        global upper
-        global down
-        global front
-        global back
-        global left
-        global right
-        upper = U
-        down = D
-        front = F
-        back = B
-        left = L
-        right = R
+        global upper, down, front, back, left, right
+        upper, down, front, back, left, right = U, D, F, B, L, R
+
+        
         Display.display(self,upper,down,front,back,left,right)
+        # Close the second window
         self.set_input.destroy()
 
-
+    # Function: import_cube_command
+    # Called from the GUI when the Import button is clicked
+    # Purpose: To change the current state of the cube from a csv file holding the new state
+    # Precondition: The csv file holding the state must exist
+    # Postcondition: The cube will be updated to the desired state and the display will update
     def import_cube_command(self):
-        global upper
-        global down
-        global front
-        global back
-        global left
-        global right
-        (U,D,F,B,L,R) = Import_Cube.get()
-        upper = U
-        down = D
-        front = F
-        back = B
-        left = L
-        right = R
+        global upper, down, front, back, left, right
+        upper, down, front, back, left, right = Import_Cube.get()
         Display.display(self,upper,down,front,back,left,right)
 
+    # Function: save_cube_command
+    # Called from the GUI when the Save button is clicked
+    # Purpose: To create a csv file of the state of the cube
+    # Precondition: The variables holding the cubes states must be defined
+    # Postcondition: The CSV file will be created and stored in a specific folder
     def save_cube_command(self):
         Save_Cube.save(upper,down,front,back,left,right)
 
+    # Function: shuffle_button_command
+    # Called from the GUI when the Shuffle button is clicked
+    # Purpose: To move the cube in a set of randomly generated moves
+    # Precondition: The variables holding the cubes states must be defined
+    # Postcondition: The cube must change with random movement
+    def shuffle_button_command(self):
+        # Generate a number to randomize how many moves are called on the cube
+        i = random.randint(5,12)
 
+        # Call random movements for every i
+        for i in range(1,i+1):
+            m = random.randint(1,12)
+            if (m ==  1): self.move_front_cw_button_command()
+            if (m ==  2): self.move_front_ccw_button_command()
+            if (m ==  3): self.move_upper_cw_button_command()
+            if (m ==  4): self.move_upper_ccw_button_command()
+            if (m ==  5): self.move_left_cw_button_command()
+            if (m ==  6): self.move_left_ccw_button_command()
+            if (m ==  7): self.move_right_cw_button_command()
+            if (m ==  8): self.move_right_ccw_button_command()
+            if (m ==  9): self.move_down_cw_button_command()
+            if (m == 10): self.move_down_ccw_button_command()
+            if (m == 11): self.move_back_cw_button_command()
+            if (m == 12): self.move_back_ccw_button_command()
+
+
+    # Function: solve_button_command
+    # Called from the GUI when the Solve button is clicked
+    # Purpose: To generate a string of characters, each corresponding to a 
+    #          movement, that will solve the Rubik's cube
+    # Precondition: The variables holding the cubes states must be defined
+    def solve_button_command(self):
+        output = Solver.solve(upper, down, front, back, left, right)
+        self.next_step_label.configure(text = output)
+
+    # Function getNext
+    # Called from the GUI when the Next button is clicked
+    # Purpose: To retrieve the next move from the solution stack
+    # Precondition: The solution stack should not be empty, but can be
+    # Postcondition: Will perform the move desired as the user clicks next
+    def getNext(self):
+        # import global variables
+        global upper, down, front, back, left, right
+        # TODO Call from stack and return
+        return("")
+
+    # Function: str2stack
+    # Helper to the solve_button_command function
+    # Purpose: Will convert the solution string into a stack to allow the 
+    #          solution display window to display a single movement and pop
+    # Precondition: The stack should not be empty
+    # Postcondition: Will convert single character movement "IDs" into complete words
+    #                to be read by the user.
+    def str2stack():
+        # TODO Create stack
+        print()
+
+
+    # Functions move_'face'_'direction'
+    # face: upper | down | front | back | left |right
+    # direction: clockwise | counterclockwise
+    # Purpose: Will rotate the face of the cube in the direction
+    # Precondition: The variables holding the cubes states must be defined
+    # Postcondition: The cube must change in the desired movement
+    #              : Each move will call the Display function to update the display
     def move_upper_cw_button_command(self):
         temp = front[0]
         temp2 = front[1]
@@ -200,7 +260,6 @@ class GUI:
         back[1] = left[1]
         left[0] = temp
         left[1] = temp2
-
         temp3 = upper[0]
         upper[0] = upper[2]
         upper[2] = upper[3]
@@ -219,7 +278,6 @@ class GUI:
         back[1] = right[1]
         right[0] = temp
         right[1] = temp2
-
         temp3 = upper[0]
         upper[0] = upper[1]
         upper[1] = upper[3]
@@ -238,7 +296,6 @@ class GUI:
         back[3] = right[3]
         right[2] = temp
         right[3] = temp2
-
         temp3 = down[0]
         down[0] = down[2]
         down[2] = down[3]
@@ -257,7 +314,6 @@ class GUI:
         back[3] = left[3]
         left[2] = temp
         left[3] = temp2
-
         temp3 = down[0]
         down[0] = down[1]
         down[1] = down[3]
@@ -294,7 +350,6 @@ class GUI:
         down[0] = left[1]
         left[3] = temp
         left[1] = temp2
-
         temp3 = front[0]
         front[0] = front[1]
         front[1] = front[3]
@@ -313,7 +368,6 @@ class GUI:
         down[2] = left[0]
         left[2] = temp
         left[0] = temp2
-
         temp3 = back[0]
         back[0] = back[2]
         back[2] = back[3]
@@ -332,7 +386,6 @@ class GUI:
         down[2] = right[3]
         right[1] = temp
         right[3] = temp2
-
         temp3 = back[0]
         back[0] = back[1]
         back[1] = back[3]
@@ -351,7 +404,6 @@ class GUI:
         down[2] = front[2]
         front[0] = temp
         front[2] = temp2
-
         temp3 = left[0]
         left[0] = left[2]
         left[2] = left[3]
@@ -370,7 +422,6 @@ class GUI:
         down[2] = back[1]
         back[3] = temp
         back[1] = temp2
-
         temp3 = left[0]
         left[0] = left[1]
         left[1] = left[3]
@@ -389,7 +440,6 @@ class GUI:
         down[3] = back[0]
         back[2] = temp
         back[0] = temp2
-
         temp3 = right[0]
         right[0] = right[2]
         right[2] = right[3]
@@ -408,7 +458,6 @@ class GUI:
         down[3] = front[3]
         front[1] = temp
         front[3] = temp2
-
         temp3 = right[0]
         right[0] = right[1]
         right[1] = right[3]
@@ -416,47 +465,11 @@ class GUI:
         right[2] = temp3
         Display.display(self,upper,down,front,back,left,right)
 
-    def shuffle_button_command(self):
-        i = random.randint(10,20)
-        i = 8
-        for i in range(1,i+1):
-            m = random.randint(1,12)
-            if (m ==  1): self.move_front_cw_button_command()
-            if (m ==  2): self.move_front_ccw_button_command()
-            if (m ==  3): self.move_upper_cw_button_command()
-            if (m ==  4): self.move_upper_ccw_button_command()
-            if (m ==  5): self.move_left_cw_button_command()
-            if (m ==  6): self.move_left_ccw_button_command()
-            if (m ==  7): self.move_right_cw_button_command()
-            if (m ==  8): self.move_right_ccw_button_command()
-            if (m ==  9): self.move_down_cw_button_command()
-            if (m == 10): self.move_down_ccw_button_command()
-            if (m == 11): self.move_back_cw_button_command()
-            if (m == 12): self.move_back_ccw_button_command()
-            
-    def solve_button_command(self):
-        output = self.getNext()
 
-
-        self.next_step_label.configure(text = output)
-
-    def getNext(self):
-        str = Solver.solve(upper,down,front,back,left,right)
-        return(str)
-    
-    def stack2str(stack):
-        out_string = ""
-        while stack:
-            out_string += stack.pop()
-            if stack:
-                out_string += ","
-        return(out_string)
-
-    
-
-                 
-
-# Start the GUI
+# Function main
+# Purpose: Run the main program
+# Precondition: The data holding the cube state must be defined
+# Post condition: Will create the GUI window and start the GUI class
 def main():
     root = tk.Tk()
     Width, Height = root.winfo_screenwidth(), root.winfo_screenheight()
@@ -470,13 +483,12 @@ def main():
     root.mainloop()
 
 
+####################################################
+# Start of the Program
 # Begin global variables
-global upper
-global down
-global front
-global back
-global left
-global right
+global upper, down, front, back, left, right
+
+# Set the cube variables to start with a solved cube
 upper = ['w','w','w','w']
 down =  ['y','y','y','y']
 front = ['b','b','b','b']
@@ -484,13 +496,6 @@ back  = ['g','g','g','g']
 left  = ['r','r','r','r']
 right = ['o','o','o','o']
 
-# Cube 10 steps
-# upper = ['w', 'b', 'r', 'y']
-# down =  ['w', 'w', 'y', 'w']
-# front = ['y', 'g', 'b', 'b'] 
-# back =  ['o', 'g', 'o', 'r']
-# left =  ['r', 'g', 'b', 'o'] 
-# right = ['o', 'y', 'r', 'g']
-
+# Run the main program, which starts the GUI class
 if __name__ == "__main__":
     main()
