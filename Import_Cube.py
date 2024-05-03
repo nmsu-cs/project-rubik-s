@@ -3,7 +3,6 @@
 
 
 # Import Libraries
-import tkinter as tk
 from tkinter import filedialog
 import csv
 

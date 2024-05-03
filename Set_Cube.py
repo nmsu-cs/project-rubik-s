@@ -6,8 +6,8 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import os
 
-# Import Cube.py
-import Cube
+# Import Main.py
+import Main
 
 # Function start
 # Purpose: To allow the user to input a cube via a GUI
@@ -288,7 +288,7 @@ def submit_button_command(self):
         B[i] = color_dict[B[i]]
         L[i] = color_dict[L[i]]
         R[i] = color_dict[R[i]]
-    Cube.GUI.update_set(self,U,D,F,B,L,R)
+    Main.GUI.update_set(self,U,D,F,B,L,R)
 
 # These buttons are part of the GUI allowing the user to set a cube
 # Will keep track of current color and shift to the "next" color when clicked

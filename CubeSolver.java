@@ -1,3 +1,7 @@
+// CubeSolver.java
+// Class used to solve the Rubik's cube
+// Copy of an old Solver.py but in java
+
 import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Queue;
