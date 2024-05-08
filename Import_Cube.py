@@ -13,7 +13,7 @@ import csv
 #               Note that the GUI has an option to save the current state into the required format
 def get():
     # Open Folder with cube sets
-    filename = filedialog.askopenfilename(initialdir='/Users/Alexamzi/Desktop/project-rubik-s/Assets/Cube_Sets/', title="Select file", filetypes=(("CSV files", "*.csv"), ("All files", "*.*")))
+    filename = filedialog.askopenfilename(initialdir='/Assets/Cube_Sets/', title="Select file", filetypes=(("CSV files", "*.csv"), ("All files", "*.*")))
     
     # Read the data from the csv into the arrays
     with open(filename, newline='\n') as csvfile:
