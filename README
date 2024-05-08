@@ -22,7 +22,7 @@ Note: The libraries required for this are:
     csv - built in CSV file management library
 
 To Run from IDE:
-Once you have the libraries installed, Open the "Main.py" file in your IDE (I use VSCode) and run the file.
+Once you have the libraries installed, Open the project folder in your IDE (I use VSCode). Open and run the file "Main.py"
 
 To Run from Terminal:
 Navigate to the project folder in the terminal.
