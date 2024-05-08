@@ -1,5 +1,4 @@
-This program emulates and solves a Rubik's cube. 
-To build this program, open the folder in an IDE, I use VS Code.
+This program emulates and solves a Rubik's cube.
 You will need python libraries installed, please install them using the following command:
     If using Python3 or greater, use:
 
@@ -22,7 +21,13 @@ Note: The libraries required for this are:
     subprocess - built in console command library
     csv - built in CSV file management library
 
+To Run from IDE:
+Once you have the libraries installed, Open the "Main.py" file in your IDE (I use VSCode) and run the file.
 
-Once you have the libraries installed, Open the "Main.py" file and run the program. 
-
+To Run from Terminal:
+Navigate to the project folder in the terminal.
+depending on your python version, you can run the program by entering:
+    python Main.py
+    or
+    python3 Main.py
     
