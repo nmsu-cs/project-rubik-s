@@ -1,0 +1,33 @@
+This program emulates and solves a Rubik's cube.
+You will need python libraries installed, please install them using the following command:
+    If using Python3 or greater, use:
+
+        pip3 install -r requirements.txt
+
+    If using Python2, use 
+
+        pip install -r requirements.txt
+
+    If using a third party Virtual environment, such as Anaconda, you may install
+    using the environments package manager commands, for example with Anaconda:
+
+        conda install -r requirements.txt
+
+Note: The libraries required for this are:
+    pillow (PIL - Python Imaging Library)
+    JPype1 (jpype - Python to Java bridge)
+    Tkinter (Tkinter - built-in python GUI library)
+    os (built-in Operating System library)
+    subprocess - built in console command library
+    csv - built in CSV file management library
+
+To Run from IDE:
+Once you have the libraries installed, Open the project folder in your IDE (I use VSCode). Open and run the file "Main.py"
+
+To Run from Terminal:
+Navigate to the project folder in the terminal.
+depending on your python version, you can run the program by entering:
+    python Main.py
+    or
+    python3 Main.py
+    
